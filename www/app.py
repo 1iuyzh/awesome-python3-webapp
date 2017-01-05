@@ -131,6 +131,7 @@ async def response_factory(app, handler):
             #存在对应模板，则套用模板
             #app['__templating__']存储的是env
             else:
+                r['__user__'] = request.__user__
                 resp = web.Response(body=app["__templating__"].get_template(template).render(**r).encode("utf-8"))
                 logging.info('test %s' % str(r))
                 resp.content_type = "text/html;charset=utf-8"

@@ -52,14 +52,14 @@ async def select(sql, args, size=None):
 #定义一个通用函数execute包含以上三种sql
 async def execute(sql, args, autocommit=True):
     log(sql)
-    async with __pool.get() as conn:
+    with (await __pool) as conn:
         if not autocommit:
             await conn.begin()
         try:
-            async with conn.cursor(aiomysql.DictCursor) as cur:
-                await cur.execute(sql.replace('?', '%s'), args)
-                #受影响的行数
-                affected = cur.rowcount
+            cur = await conn.cursor()
+            await cur.execute(sql.replace('?', '%s'), args)
+            affected = cur.rowcount
+            await cur.close()
             if not autocommit:
                 await conn.commit()
         except BaseException as e:
