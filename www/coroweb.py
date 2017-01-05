@@ -92,7 +92,7 @@ def has_request_arg(fn):
 
 #RequestHandler实例RequestHandler(app, fn)(request)为封装后的URL函数fn
 #从URL函数中分析其需要接收的参数，从request中获取必要的参数
-#将结果处理成web.Response对象
+#app.py中的response_factory负责将结果处理成web.Response对象
 class RequestHandler(object):
 
     def __init__(self, app, fn):
