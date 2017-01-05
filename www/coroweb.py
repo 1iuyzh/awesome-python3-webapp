@@ -124,7 +124,7 @@ class RequestHandler(object):
                 if ct.startswith('application/json'):
                     #用json方法读取消息到kw
                     params = await request.json()
-                    if not isinstance(params. dict):
+                    if not isinstance(params, dict):
                         return web.HTTPBadRequest('JSON body must be object.')
                     kw =  params
                 elif ct.startswith('application/x-www-form-urlencoded') or ct.startswith('multipart/form-data'):

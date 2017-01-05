@@ -221,7 +221,7 @@ class Model(dict, metaclass=ModelMetaclass):
             if field.default is not None:
                 #如果default是方法则返回default()，如果是具体值则返回default
                 value = field.default() if callable(field.default) else field.default
-                logging.debug('using default value for %s: %s' % (key, str(values)))
+                logging.debug('using default value for %s: %s' % (key, str(value)))
                 setattr(self, key, value)
         return value
 
@@ -281,7 +281,7 @@ class Model(dict, metaclass=ModelMetaclass):
         args.append(self.getValueOrDefault(self.__primary_key__))
         #'insert into `%s` (%s, `%s`) values (%s)' % (tableName, ', '.join(escaped_fields), primaryKey, create_args_string(len(escaped_fields) + 1))
         rows = await execute(self.__insert__, args)
-        if row != 1:
+        if rows != 1:
             logging.warn('failed to insert record: affected rows: %s' % rows)
 
     async def update(self):
